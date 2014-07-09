@@ -5,6 +5,7 @@
 #-------------------------------------------------
 
 QT       += core
+QT       += xlsx
 
 QT       -= gui
 
@@ -15,4 +16,11 @@ CONFIG   -= app_bundle
 TEMPLATE = app
 
 
-SOURCES += main.cpp
+SOURCES += main.cpp \
+    dataaccess.cpp
+
+HEADERS += \
+    dataaccess.h \
+    types.h
+
+LIBS += -l sqlite3
