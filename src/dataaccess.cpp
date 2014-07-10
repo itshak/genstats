@@ -6,7 +6,6 @@
 #include <sstream>
 #include <algorithm>
 
-#include "types.h"
 #include "dataaccess.h"
 
 namespace DataAccess{
@@ -34,6 +33,8 @@ namespace DataAccess{
             fprintf(stderr, "Can't open in-memory CREATED db: %s\n", sqlite3_errmsg(gen));
             return;
         }
+
+        std::cout << "db opened" << std::endl;
     }
     
     void close_db()
@@ -41,13 +42,7 @@ namespace DataAccess{
         // Check if DB exists in memory
         if(gen)
         {
-            // save data from memory to file
-            if(loadOrSaveDb(gen, "../../data/gen.db3", 1))
-            {
-                fprintf(stderr, "Can't save data of db to file\n");
-                return;
-            }
-            else if( sqlite3_close(gen) )
+            if( sqlite3_close(gen) )
             {
                 fprintf(stderr, "Can't close database in memory: %s\n",
                                sqlite3_errmsg(gen));
@@ -55,13 +50,14 @@ namespace DataAccess{
             }
                 
             gen=NULL;
-
         }
         else {
             fprintf(stderr, "db doesn't exists yet in memory\n");
             return;
 
         }
+
+        std::cout << "db closed" << std::endl;
     }
     
     bool is_opened()
@@ -92,15 +88,18 @@ namespace DataAccess{
     {        
         std::stringstream sql;
         
-         const char* q = ct==CREATED? "SELECT * from GEN_COMPOS" :
+        const char* q = ct==CREATED? "SELECT * from GEN_COMPOS" :
                 ct==DEL_IMP? "SELECT * from DEL_IMP_COMPOS" :
                 ct==ADM_IMP? "SELECT * from ADM_IMP_COMPOS AS FIC JOIN \
                                ADM_FULL_LEVEL_STATISTICS AS LS WHERE FIC.ID = LS.COMPOS_ID" :
                              "SELECT * from FULL_IMP_COMPOS AS FIC JOIN \
                                FULL_LEVEL_STATISTICS AS LS WHERE FIC.ID = LS.COMPOS_ID";    
+
+        sql << q << "\nwhere THEMES & " << ThemeBB[t] << " = " << ThemeBB[t];
         
-        sql << q << "\nwhere THEMES & " << t << " = " << t;
-        
+        //std::cout << sql.str() << std::endl;
+
+
         char *zErrMsg = 0;
 
         if( sqlite3_exec(gen, sql.str().c_str(), callback, NULL, &zErrMsg) )
@@ -212,7 +211,7 @@ namespace DataAccess{
     {
         std::stringstream sql;
 
-        sql <<  "SELECT * from GEN_THEMES\n \
+        sql <<  "SELECT * from GEN_PENALTIES\n \
                  WHERE THEME_ID = " << t;
 
         char *zErrMsg = 0;

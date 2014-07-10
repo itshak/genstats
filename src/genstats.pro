@@ -21,6 +21,8 @@ SOURCES += main.cpp \
 
 HEADERS += \
     dataaccess.h \
-    types.h
+    types.h \
+    engine.h \
+    bitmaps.h
 
 LIBS += -l sqlite3

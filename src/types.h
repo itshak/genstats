@@ -238,6 +238,76 @@ inline bool is_ok(Transforms t) {
               false : true;           
 }
 
+extern Themes    ThemeBB[EXT_THEME_NB];
+extern Bonuses   BonusBB[BONUS_NB];
+extern Penalties PenaltyBB[PENALTY_NB];
+
+//Themes operators
+
+inline Themes operator&(Themes ts, Theme t) {
+  return ts & ThemeBB[t];
+}
+
+inline Themes& operator|=(Themes& ts, Theme t) {
+  return ts |= ThemeBB[t];
+}
+
+inline Themes& operator^=(Themes& ts, Theme t) {
+  return ts ^= ThemeBB[t];
+}
+
+inline Themes operator|(Themes ts, Theme t) {
+  return ts | ThemeBB[t];
+}
+
+inline Themes operator^(Themes ts, Theme t) {
+  return ts ^ ThemeBB[t];
+}
+
+//Bonus operators
+
+inline Bonuses operator&(Bonuses bs, Bonus b) {
+  return bs & BonusBB[b];
+}
+
+inline Bonuses& operator|=(Bonuses& bs, Bonus b) {
+  return bs |= BonusBB[b];
+}
+
+inline Bonuses& operator^=(Bonuses& bs, Bonus b) {
+  return bs ^= BonusBB[b];
+}
+
+inline Bonuses operator|(Bonuses bs, Bonus b) {
+  return bs | BonusBB[b];
+}
+
+inline Bonuses operator^(Bonuses bs, Bonus b) {
+  return bs ^ BonusBB[b];
+}
+
+//Penalty operators
+
+inline Penalties operator&(Penalties ps, Penalty p) {
+  return ps & PenaltyBB[p];
+}
+
+inline Penalties& operator|=(Penalties& ps, Penalty p) {
+  return ps |= PenaltyBB[p];
+}
+
+inline Penalties& operator^=(Penalties& ps, Penalty p) {
+  return ps ^= PenaltyBB[p];
+}
+
+inline Penalties operator|(Penalties ps, Penalty p) {
+  return ps | PenaltyBB[p];
+}
+
+inline Penalties operator^(Penalties ps, Penalty p) {
+  return ps ^ PenaltyBB[p];
+}
+
 #include <string>
 
 inline const std::string square_to_string(Square s) {
